@@ -1,6 +1,6 @@
 <?php 
 
-namespace Application\Framework\Database; 
+namespace Application\Database; 
 
 class Connection extends \mysqli {
     private $_db_config;

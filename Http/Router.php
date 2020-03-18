@@ -6,9 +6,9 @@
  * Time: 10:59 PM
  */
 
-namespace Application\Framework\Http;
+namespace Application\Http;
 
-use Application\Framework\Foundation\Request;
+use Application\Foundation\Request;
 
 class Router
 {

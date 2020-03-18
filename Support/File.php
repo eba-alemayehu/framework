@@ -6,7 +6,7 @@
  * Time: 11:59 AM
  */
 
-namespace Application\Framework\Support;
+namespace Application\Support;
 
 
 class File

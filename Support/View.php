@@ -6,9 +6,9 @@
  * Time: 1:03 AM
  */
 
-namespace Application\Framework\Support;
+namespace Application\Support;
 use App\Role;
-use \Application\Framework\Support\Auth;
+use \Application\Support\Auth;
 use App\User;
 
 class View

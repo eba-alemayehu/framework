@@ -6,7 +6,7 @@
  * Time: 1:32 AM
  */
 
-namespace Application\Framework\Database;
+namespace Application\Database;
 
 
 class Model extends Connection

@@ -6,7 +6,7 @@
  * Time: 1:42 AM
  */
 
-namespace Application\Framework\Database;
+namespace Application\Database;
 
 
 class Table extends Connection

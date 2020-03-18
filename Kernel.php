@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Framework;
+namespace Application;
 
 use App\Http\Controllers;
 use App\Commander\Middlewares;

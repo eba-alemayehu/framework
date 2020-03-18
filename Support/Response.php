@@ -6,7 +6,7 @@
  * Time: 6:55 PM
  */
 
-namespace Application\Framework\Support;
+namespace Application\Support;
 
 
 class Response

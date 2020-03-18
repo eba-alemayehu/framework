@@ -6,7 +6,7 @@
  * Time: 6:42 PM
  */
 
-namespace Application\Framework\Support;
+namespace Application\Support;
 
 use App\User;
 

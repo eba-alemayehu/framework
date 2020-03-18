@@ -6,7 +6,7 @@
  * Time: 10:46 PM
  */
 
-namespace Application\Framework\Foundation;
+namespace Application\Foundation;
 
 
 class Request

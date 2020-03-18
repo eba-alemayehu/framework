@@ -6,7 +6,7 @@
  * Time: 12:55 AM
  */
 
-namespace Application\Framework\Http;
+namespace Application\Http;
 
 class Controller
 {

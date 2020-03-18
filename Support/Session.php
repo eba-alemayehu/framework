@@ -6,7 +6,7 @@
  * Time: 6:43 PM
  */
 
-namespace Application\Framework\Support;
+namespace Application\Support;
 
 
 class Session
