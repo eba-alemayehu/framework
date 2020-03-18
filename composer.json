@@ -1,5 +1,5 @@
 {
-    "name": "dmu/Application",
+    "name": "dmu/application",
     "description": "Core of a php framework devloped in Debremarkos University",
     "license": "MIT",
     "authors": [
