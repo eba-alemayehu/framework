@@ -37,7 +37,7 @@ class Kernel{
         $runable_method = $runable->$method();
 
         if(is_object($runable_method)){
-            if(get_class($runable_method) == "Application\Framework\Support\View"){
+            if(get_class($runable_method) == "Application\Support\View"){
                 $response = $runable_method->show();
             }else{
                 $response = json_encode($runable_method);
