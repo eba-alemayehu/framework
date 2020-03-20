@@ -20,15 +20,14 @@ class Router
     public function __construct()
     {
         $this->routes = []; 
+        $this->route = null; 
+
         require(APPLICATION_ROOT."routes/router.php");
+        
         foreach($this->routes as $route){
             if($route->method == Request::getMethod() && $route->url == self::url()){ 
                 $this->route = $route; 
-            break; 
-            }else{
-                http_response_code(404);
-                require_once (APPLICATION_ROOT."app/Resource/views/error/404.php");
-                die();
+                break; 
             }
         }
     }

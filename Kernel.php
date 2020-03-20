@@ -23,8 +23,13 @@ class Kernel{
         ini_set("error_log", ($config['debug'])?1:0);
     }
     public function run(){
-        $middelwares = [];
+        if($this->router->route === null){
+            http_response_code(404);
+            require_once (APPLICATION_ROOT."app/Resource/views/error/404.php");
+            die();
+        }
         
+        $middelwares = [];
         foreach($this->router->route->middlewares as $middelware){
             $m = "\\App\\Http\\Middlewares\\".$middelware;
             $m_obj = new $m();
