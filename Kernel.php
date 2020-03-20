@@ -8,6 +8,8 @@ use App\Commander\Middlewares;
 session_start();
 define("APPLICATION_ROOT", __DIR__."/../../../");
 class Kernel{
+    private $router = null; 
+
     public function __construct(){
         $this->init();
         $this->run();
@@ -15,20 +17,21 @@ class Kernel{
 
     private function init(){
         $config = require_once (APPLICATION_ROOT."config/app.config.php");
+        $this->router = new Http\Route; 
 
         ini_set("display_errors", ($config['debug'])?1:0);
         ini_set("error_log", ($config['debug'])?1:0);
     }
     public function run(){
         $middelwares = [];
-        foreach(Http\Router::middlewares() as $middelware){
+        foreach($this->router->route->middlewares() as $middelware){
             $m = "\\App\\Http\\Middlewares\\".$middelware;
             $m_obj = new $m();
             $m_obj->before();
             array_push($middelwares, $m_obj);
         }
 
-        $controllerAttr = Http\Router::controller();
+        $controllerAttr = $this->router->route->controller();
         $controller = "\\App\\Http\\Controllers\\".$controllerAttr[0];
         $method = $controllerAttr[1];
 

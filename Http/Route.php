@@ -7,7 +7,7 @@ class Route
     public $method; 
     public $url; 
     public $controller; 
-    public $middleware = []; 
+    public $middlewares = []; 
 
     public function middelware($middleware){
         if(is_array($middleware)){
