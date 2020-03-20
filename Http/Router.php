@@ -9,6 +9,7 @@
 namespace Application\Http;
 
 use Application\Foundation\Request;
+use Reflection;
 
 class Router
 {
@@ -17,22 +18,32 @@ class Router
     private $middleware; 
     public $route;
 
-    public function __construct()
+    public function __construct($find_current_route = true)
     {
         $this->routes = []; 
         $this->route = null; 
+        $this->middleware = null; 
+        $this->prefix = null; 
 
         require(APPLICATION_ROOT."routes/router.php");
-        
-        foreach($this->routes as $route){
-            if($route->method == Request::getMethod() && $route->url == self::url()){ 
-                $this->route = $route; 
-                break; 
+
+        if($find_current_route)
+            foreach($this->routes as $route){
+                if($route->method == Request::getMethod() && $route->url == self::url()){ 
+                    $this->route = $route; 
+                    break; 
+                }
             }
-        }
     }
 
-    private function loadRouter(){
+    public function __set($name, $value){
+        if($name == "middleware"){
+            if(is_string($value)){ 
+                $this->middleware = [ucfirst($value)]; 
+            }    
+        }
+    }
+    public function loadRouter(){
        return $this->routes; 
     }
 
@@ -65,7 +76,7 @@ class Router
         $route->method = $method; 
         $route->url = ($this->prefix == null)? $url: $this->prefix . $url; 
         $route->controller = $controller; 
-        $route->middlewares = ($this->middleware == null)? $midelware: array_merge($this->middleware, $midelware); 
+        $route->middlewares = (!is_array($this->middleware))? $midelware: array_merge($this->middleware, $midelware); 
     
         array_push($this->routes, $route); 
 
@@ -89,10 +100,42 @@ class Router
     }
 
     public function group($params, $callback){
-        $this->prefix = $params['prefix']; 
-        $this->middleware = $params['middleware']; 
+        $this->prefix = isset($params['prefix'])? $params["prefix"]: $this->prefix; 
+        $this->middleware = isset($params['middleware'])? $params["middleware"]: $this->middleware; 
         $callback(); 
         $this->prefix = null; 
         $this->middleware = null; 
+    }
+
+    public function prefix(string $prefix){
+        $this->prefix = $prefix; 
+        return $this; 
+    }
+
+    public function middleware($middleware){
+        $this->middleware = $middleware; 
+        return $this; 
+    }
+
+    public function endPrefix(){
+        $this->prefix = null; 
+        return $this; 
+    }
+
+    public function endMiddleware($middleware){
+        $this->middleware = null; 
+        return $this; 
+    }
+
+    public function controller(string $url, string $controller, $middleware = []){
+        $class = new \ReflectionClass("\\App\\Http\\Controllers\\".$controller);
+        $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+        
+        foreach($methods as $method){
+
+            $requestMethod = strtoupper(preg_split('/(?=[A-Z_])/',$method->name)[0]);
+            $this->route($requestMethod, $url.'/'.ltrim($method->name, strtolower($requestMethod)), $controller.'@'.$method->name); 
+        }
+        return $this;
     }
 }

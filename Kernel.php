@@ -30,6 +30,7 @@ class Kernel{
         }
         
         $middelwares = [];
+
         foreach($this->router->route->middlewares as $middelware){
             $m = "\\App\\Http\\Middlewares\\".$middelware;
             $m_obj = new $m();
