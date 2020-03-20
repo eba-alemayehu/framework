@@ -12,13 +12,17 @@ use Application\Foundation\Request;
 
 class Router
 {
+    private $routes; 
+    private $prefix; 
+    private $middleware; 
+
     public function __construct()
     {
+        require(APPLICATION_ROOT."routes/router.php");
     }
 
-    private static function loadRouter(){
-       $router = require(APPLICATION_ROOT."routes/router.php");
-        return $router;
+    private function loadRouter(){
+       return $this->routes; 
     }
 
     public static function url(){
@@ -46,5 +50,40 @@ class Router
 
     public static function middlewares(){
         return self::params()["middleware"];
+    }
+
+    public function route(string $method, string $url, string $controller, $midelware = [])
+    {
+        $route = new Route; 
+        $route->method = $method; 
+        $route->url = ($this->prefix == null)? $url: $this->prefix . $url; 
+        $route->controller = $controller; 
+        $route->middleware = ($this->middleware == null)? $midelware: array_merge($this->middleware, $midelware); 
+        array_push($this->routes, $route); 
+        return $route; 
+    }
+
+    public function get(string $url, string $controller, $midelware = []){
+        return $this->route('GET', $url, $controller, $midelware); 
+    }
+
+    public function post(string $url, string $controller, $midelware = []){
+        return $this->route('POST', $url, $controller, $midelware); 
+    }
+
+    public function put(string $url, string $controller, $midelware = []){
+        return $this->route('PUT', $url, $controller, $midelware); 
+    }
+
+    public function delte(string $url, string $controller, $midelware = []){
+        return $this->route('DELETE', $url, $controller, $midelware); 
+    }
+
+    public function group($params, $callback){
+        $this->prefix = $params['prefix']; 
+        $this->middleware = $params['middleware']; 
+        $callback(); 
+        $this->prefix = null; 
+        $this->middleware = null; 
     }
 }
