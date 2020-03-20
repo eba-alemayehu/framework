@@ -17,4 +17,14 @@ class Route
         }
     }
 
+    public function controller(){
+        return explode("@",$this->controller);
+    }
+    public function controllerClass(){
+        return "\\App\\Http\\Controllers\\".$this->controller()[0]; 
+    }
+    public function controllerMethod(){
+        return $this->controller()[1]; 
+    }
+
 }

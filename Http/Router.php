@@ -15,14 +15,16 @@ class Router
     private $routes; 
     private $prefix; 
     private $middleware; 
-    private $route;
+    public $route;
 
     public function __construct()
     {
+        $this->routes = []; 
         require(APPLICATION_ROOT."routes/router.php");
-        foreach($routes as $route){
-            if($route->method == Request::getMethod() && $route->url == self::url()){
+        foreach($this->routes as $route){
+            if($route->method == Request::getMethod() && $route->url == self::url()){ 
                 $this->route = $route; 
+            break; 
             }else{
                 http_response_code(404);
                 require_once (APPLICATION_ROOT."app/Resource/views/error/404.php");
@@ -54,10 +56,6 @@ class Router
         }
     }
 
-    public static function controller(){
-        return explode("@",self::params()["controller"]);
-    }
-
     public static function middlewares(){
         return self::params()["middleware"];
     }
@@ -69,7 +67,9 @@ class Router
         $route->url = ($this->prefix == null)? $url: $this->prefix . $url; 
         $route->controller = $controller; 
         $route->middlewares = ($this->middleware == null)? $midelware: array_merge($this->middleware, $midelware); 
+    
         array_push($this->routes, $route); 
+
         return $route; 
     }
 

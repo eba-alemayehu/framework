@@ -17,23 +17,23 @@ class Kernel{
 
     private function init(){
         $config = require_once (APPLICATION_ROOT."config/app.config.php");
-        $this->router = new Http\Route; 
+        $this->router = new Http\Router; 
 
         ini_set("display_errors", ($config['debug'])?1:0);
         ini_set("error_log", ($config['debug'])?1:0);
     }
     public function run(){
         $middelwares = [];
-        foreach($this->router->route->middlewares() as $middelware){
+        
+        foreach($this->router->route->middlewares as $middelware){
             $m = "\\App\\Http\\Middlewares\\".$middelware;
             $m_obj = new $m();
             $m_obj->before();
             array_push($middelwares, $m_obj);
         }
 
-        $controllerAttr = $this->router->route->controller();
-        $controller = "\\App\\Http\\Controllers\\".$controllerAttr[0];
-        $method = $controllerAttr[1];
+        $controller = $this->router->route->controllerClass();
+        $method = $this->router->route->controllerMethod();
 
         $runable = new $controller;
         $response = null;
