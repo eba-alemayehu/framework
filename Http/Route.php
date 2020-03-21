@@ -15,6 +15,8 @@ class Route
         }else{
             array_push($this->middlewares, $middleware); 
         }
+
+        return $this; 
     }
 
     public function controller(){
