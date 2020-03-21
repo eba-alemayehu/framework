@@ -74,9 +74,9 @@ class Table extends Connection
     public function create(){
         $sql =  "$this->_create_table_statement (";
         $sql .= implode(",", $this->cols). " )  ENGINE = InnoDB";
-        echo $sql;
+     
         parent::prepare($sql)->execute();
-
+        return $this->table; 
     }
 
 
