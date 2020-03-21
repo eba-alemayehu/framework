@@ -11,9 +11,9 @@ class Route
 
     public function middelware($middleware){
         if(is_array($middleware)){
-            array_merge($this->middleware, $middleware); 
+            array_merge($this->middlewares, $middleware); 
         }else{
-            array_push($this->middleware, $middleware); 
+            array_push($this->middlewares, $middleware); 
         }
     }
 
