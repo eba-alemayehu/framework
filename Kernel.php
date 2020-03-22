@@ -45,7 +45,7 @@ class Kernel{
         $response = null;
         $runable = new $controller;
         // $runable_method = $runable->$method();
-        call_user_func_array(array($runable, $method), array_map(function($param){
+        $runable_method = call_user_func_array(array($runable, $method), array_map(function($param){
             return $param->value; 
         }, $this->router->route->params(Router::url())));
 

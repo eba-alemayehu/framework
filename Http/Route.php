@@ -1,4 +1,5 @@
 <?php 
+namespace Application\Http;
 class Route
 {   
     public $method; 
@@ -48,7 +49,6 @@ class Route
 			array_push($params, (object)$param); 
 		}
 
-		
 		return $params; 
 	}
 }

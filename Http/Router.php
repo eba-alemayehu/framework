@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 2/15/19
- * Time: 10:59 PM
- */
-
 namespace Application\Http;
 
 use Application\Foundation\Request;
