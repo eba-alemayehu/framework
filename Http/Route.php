@@ -21,6 +21,13 @@ class Route
     public function controller(){
         return explode("@",$this->controller);
     }
+    public function setUrl($url){
+        if(empty($url)){
+            $this->url = "/"; 
+        }else{
+            $this->url = ($url[0] == "/")? $url: "/".$url;
+        }     
+    }
     public function controllerClass(){
         return "\\App\\Http\\Controllers\\".$this->controller()[0]; 
     }
@@ -28,9 +35,9 @@ class Route
         return $this->controller()[1]; 
     }
     public function match($url){
-        $url_pattern = preg_replace(self::$param_pattern, "*", $this->url); 
-		$url_pattern = "/^".str_replace("/", "\/", $url_pattern)."/"; 
-	
+        $url_pattern = preg_replace(self::$param_pattern, "([^/]+)", $this->url); 
+		$url_pattern = "/^".str_replace("/", "\/", $url_pattern)."$/"; 
+   
         return preg_match($url_pattern, $url); 
 	}
 	
@@ -49,6 +56,7 @@ class Route
 			array_push($params, (object)$param); 
 		}
 
+		
 		return $params; 
 	}
 }

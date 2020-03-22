@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: root
+ * Date: 2/15/19
+ * Time: 10:59 PM
+ */
+
 namespace Application\Http;
 
 use Application\Foundation\Request;
@@ -44,10 +51,14 @@ class Router
 
     public static function url(){
         if(isset($_GET['url'])){
-            return $_GET["url"];
+            $url = $_GET["url"];
         }else{
-            return (isset($_SERVER['PATH_INFO'])?$_SERVER['PATH_INFO']:"/"); 
+            $url = (isset($_SERVER['PATH_INFO'])?$_SERVER['PATH_INFO']:"/"); 
         }
+
+        $url = rtrim($url, "/"); 
+        $url = ($url == "")? "/": $url; 
+        return $url; 
     }
 
     public static function params(){
@@ -69,7 +80,7 @@ class Router
     {
         $route = new Route; 
         $route->method = $method; 
-        $route->url = ($this->prefix == null)? $url: $this->prefix . $url; 
+        $route->setUrl(($this->prefix == null)? $url: $this->prefix . $url); 
         $route->controller = $controller; 
         $route->middlewares = (!is_array($this->middleware))? $midelware: array_merge($this->middleware, $midelware); 
     
