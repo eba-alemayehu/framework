@@ -21,7 +21,7 @@ class Kernel{
         $this->router = new Http\Router; 
 
         ini_set("display_errors", ($config['debug'])?1:0);
-        ini_set("error_log", ($config['debug'])?1:0);
+        ini_set("error_log", APPLICATION_ROOT."/storage/logs/".date("d-m-y").".log");
     }
     public function run(){
         if($this->router->route === null){
