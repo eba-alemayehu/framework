@@ -4,6 +4,7 @@ namespace Application;
 
 use App\Http\Controllers;
 use App\Commander\Middlewares;
+use Application\Http\Router;
 
 session_start();
 define("APPLICATION_ROOT", __DIR__."/../../../");
@@ -41,9 +42,12 @@ class Kernel{
         $controller = $this->router->route->controllerClass();
         $method = $this->router->route->controllerMethod();
 
-        $runable = new $controller;
         $response = null;
-        $runable_method = $runable->$method();
+        $runable = new $controller;
+        // $runable_method = $runable->$method();
+        call_user_func_array(array($runable, $method), array_map(function($param){
+            return $param->value; 
+        }, $this->router->route->params(Router::url())));
 
         if(is_object($runable_method)){
             if(get_class($runable_method) == "Application\Support\View"){

@@ -31,7 +31,7 @@ class Router
 
         if($find_current_route)
             foreach($this->routes as $route){
-                if($route->method == Request::getMethod() && $route->url == self::url()){ 
+                if($route->method == Request::getMethod() && $route->match(self::url())){ 
                     $this->route = $route; 
                     break; 
                 }
